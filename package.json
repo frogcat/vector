@@ -6,6 +6,14 @@
     "build": "cat */*.js > bundle.js && cat */*.css > bundle.css",
     "clean": "rm -f bundle.js bundle.css"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frogcat/vector.git"
+  },
   "author": "frogcat",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frogcat/vector/issues"
+  },
+  "homepage": "https://github.com/frogcat/vector#readme"
 }
