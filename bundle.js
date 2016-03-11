@@ -1589,7 +1589,7 @@ module.exports = function (japanese) {
 })();(function(window) {
 
   if (!location.search || location.search == "")
-    history.replaceState(null, "", "?ort" + location.hash);
+    history.replaceState(null, "", "?ortho" + location.hash);
   if (!location.hash || location.hash == "")
     history.replaceState(null, "", location.search + "#15/35.6707/139.7852");
 
