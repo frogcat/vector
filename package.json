@@ -1,0 +1,11 @@
+{
+  "name": "vector",
+  "version": "1.0.0",
+  "description": "vector tile experiment",
+  "scripts": {
+    "build": "cat */*.js > bundle.js && cat */*.css > bundle.css",
+    "clean": "rm -f bundle.js bundle.css"
+  },
+  "author": "frogcat",
+  "license": "MIT"
+}
