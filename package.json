@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "vector tile experiment",
   "scripts": {
-    "start": "npm run build && superstatic dist",
-    "build": "browserify src/main.js > dist/bundle.js && cat */*.css > dist/bundle.css",
-    "clean": "rm -f dist/bundle.js dist/bundle.css"
+    "start": "npm run build && superstatic",
+    "build": "browserify src/main.js > bundle.js && cat */*.css > bundle.css",
+    "clean": "rm -f bundle.js bundle.css"
   },
   "repository": {
     "type": "git",
