@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "vector tile experiment",
   "scripts": {
-    "build": "cat */*.js > bundle.js && cat */*.css > bundle.css",
-    "clean": "rm -f bundle.js bundle.css"
+    "start": "npm run build && superstatic dist",
+    "build": "browserify src/main.js > dist/bundle.js && cat */*.css > dist/bundle.css",
+    "clean": "rm -f dist/bundle.js dist/bundle.css"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/frogcat/vector/issues"
   },
-  "homepage": "https://github.com/frogcat/vector#readme"
+  "homepage": "https://github.com/frogcat/vector#readme",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "superstatic": "^4.0.2"
+  },
+  "dependencies": {
+    "japanese": "^1.1.0",
+    "leaflet-hash": "^0.2.1"
+  }
 }
