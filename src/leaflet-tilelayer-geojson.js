@@ -1,47 +1,69 @@
 (function() {
 
-  var cache = {};
-  var ajax = function(url) {
-    if (!cache[url])
-      cache[url] = new Promise(function(resolve, reject) {
-        var x = new XMLHttpRequest();
-        x.onreadystatechange = function() {
-          if (x.readyState == 4)
-            resolve(x.status == 200 ? x.responseText : null);
-        };
-        x.open("get", url, true);
-        x.send();
+  var ajax = {
+    queue: [],
+    load: function(url) {
+      var obj = null;
+      this.queue.forEach(function(a) {
+        obj = (a.url == url ? a : obj);
       });
-    return cache[url];
+      if (!obj) {
+        obj = {
+          url: url
+        };
+        obj.promise = new Promise(function(resolve, reject) {
+          obj.resolve = resolve;
+          obj.reject = reject;
+        });
+        this.queue.push(obj);
+        if (this.queue.length == 1)
+          this.next();
+      }
+      return obj.promise;
+    },
+    next: function() {
+      var obj = this.queue.shift();
+      if (!obj)
+        return;
+      var x = new XMLHttpRequest();
+      x.onreadystatechange = function() {
+        if (x.readyState == 4) {
+          obj.resolve(x.status == 200 ? x.responseText : null);
+          ajax.next();
+        }
+      };
+      x.open("get", obj.url, true);
+      x.send();
+    }
   };
 
   L.TileLayer.GeoJSON = L.LayerGroup.extend({
-    options : {
-      minZoom : 16,
-      maxZoom : 16,
-      zoom : 16
+    options: {
+      minZoom: 16,
+      maxZoom: 16,
+      zoom: 16
     },
-    initialize : function(tmpl, options, geojson2layers) {
+    initialize: function(tmpl, options, geojson2layers) {
       L.Util.setOptions(this, options);
       this._tmpl = tmpl;
       this._geojson2layers = geojson2layers;
       L.LayerGroup.prototype.initialize.call(this);
     },
-    onAdd : function(map) {
+    onAdd: function(map) {
       L.LayerGroup.prototype.onAdd.call(this, map);
       this.update();
     },
-    onRemove : function(map) {
+    onRemove: function(map) {
       L.LayerGroup.prototype.onRemove.call(this, map);
     },
-    getEvents : function() {
+    getEvents: function() {
       return {
-        "moveend" : this.update,
-        "zoomend" : this.update
+        "moveend": this.update,
+        "zoomend": this.update
       };
     },
 
-    update : function(event) {
+    update: function(event) {
 
       var map = this._map;
       var opt = this.options;
@@ -66,7 +88,7 @@
       }
 
       var layers = {};
-      for ( var key in this._layers) {
+      for (var key in this._layers) {
         var layer = this._layers[key];
         layers[layer.coords] = layer;
       }
@@ -83,7 +105,7 @@
         layer.coords = key;
 
         var that = this;
-        ajax(L.Util.template(that._tmpl, L.extend(c, opt))).then(function(txt) {
+        ajax.load(L.Util.template(that._tmpl, L.extend(c, opt))).then(function(txt) {
           var json = JSON.parse(txt);
           if (!json)
             return;
@@ -94,7 +116,7 @@
 
       }, this);
 
-      for ( var key in layers) {
+      for (var key in layers) {
         this.removeLayer(layers[key]);
       }
     }
