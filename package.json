@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "vector tile experiment",
   "scripts": {
-    "start": "npm run build && superstatic",
-    "build": "browserify src/main.js > bundle.js && cat */*.css > bundle.css",
-    "clean": "rm -f bundle.js bundle.css"
+    "start": "http-server -o -c-1"
   },
   "repository": {
     "type": "git",
@@ -18,11 +16,6 @@
   },
   "homepage": "https://github.com/frogcat/vector#readme",
   "devDependencies": {
-    "browserify": "^13.0.0",
-    "superstatic": "^4.0.2"
-  },
-  "dependencies": {
-    "japanese": "^1.1.0",
-    "leaflet-hash": "^0.2.1"
+    "http-server": "^0.9.0"
   }
 }

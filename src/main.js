@@ -1,8 +1,3 @@
-require('./leaflet-control-elevation.js');
-require('./leaflet-control-layers-search.js');
-require('./leaflet-tilelayer-geojson.js');
-var japanese = require('japanese');
-require('leaflet-hash');
 
 (function(window) {
 
