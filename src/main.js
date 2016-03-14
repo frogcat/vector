@@ -1,4 +1,3 @@
-
 (function(window) {
 
   if (!location.search || location.search == "")
@@ -26,6 +25,23 @@
     maxZoom: 17,
     id: "relief",
     extension: "png"
+  });
+
+  overlays["landform"] = L.tileLayer.geoJson(tmpl, {
+    zoom: 14,
+    maxZoom: 20,
+    minZoom: 14,
+    id: "experimental_landformclassification",
+    extension: "geojson"
+  }, function(json) {
+    var a = [];
+    json.features.forEach(function(b) {
+      a.push(L.geoJson(b, {
+        className: "geojson-landform geojson-landform-" + b.properties.code,
+        pane: "tilePane"
+      }));
+    });
+    return a;
   });
 
   overlays["river"] = L.tileLayer.geoJson(tmpl, {
